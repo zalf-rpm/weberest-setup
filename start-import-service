@@ -1,0 +1,11 @@
+#!/bin/bash
+
+#pwd < /dev/stdin
+pwd=`cat ftp_pwd`
+
+java -Ddatomic.txTimeoutMsec=30000 -Dberest.datomic.url=datomic:dev://localhost:4334/berest/ -jar mas-infrastructure/src/java/services/web-berest/target/web-berest-1.0-SNAPSHOT-jar-with-dependencies.jar localhost:15000 > logs/datomic-import.out 2> logs/datomic-import.err &
+
+cd mas-infrastructure
+python src/python/services/model/web-berest-datomic-dwd-import.py ftps_pwd=$pwd > ../logs/get_ftps_data.out 2> ../logs/get_ftps_data.err &
+
+

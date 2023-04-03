@@ -1,0 +1,4 @@
+#!/bin/bash
+
+cd ~/weberest/berest-castra-service; nohup java -jar target/berest-castra-service-0.3.23-standalone.jar > ../logs/castra-service.out &
+

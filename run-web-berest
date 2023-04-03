@@ -1,0 +1,6 @@
+#!/bin/bash
+
+~/weberest/start-db
+~/weberest/start-webserver
+~/weberest/start-import-service
+

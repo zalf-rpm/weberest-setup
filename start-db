@@ -1,0 +1,4 @@
+#!/bin/bash
+
+cd ~/weberest/datomic-pro-1.0.6397; nohup bin/transactor config/weberest-transactor.properties > ../logs/weberest.out 2> ../logs/weberest.err &
+

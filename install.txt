@@ -1,0 +1,53 @@
+#!/bin/bash
+
+# install the nix package manager
+sh <(curl -L https://nixos.org/nix/install) --daemon
+
+# let nix download all the dependencies from default.nix
+nix-shell
+
+mkdir weberest
+cd weberest
+
+# clone repositories
+git clone https://github.com/zalf-rpm/berest-core.git
+git clone https://github.com/zalf-rpm/berest-castra-service.git
+git clone https://github.com/zalf-rpm/berest-hoplon-client.git
+git clone https://github.com/zalf-rpm/twitter-bootstrap.git
+git clone https://github.com/zalf-rpm/mas-infrastructure.git
+git clone https://github.com/vaci/capnproto-java-rpc.git
+
+# create weberest server service jar
+cd berest-castra-service
+clj -T:build uber
+cd ..
+
+# compile hoplon client
+cd berest-hoplon-client
+boot prod
+cd ..
+
+# compile capnproto java lib
+cd capnproto-java-rpc
+#mvn compile
+mvn install
+cd ..
+
+# create import service jar
+cd mas-infrastructure/src/java/services/web-berest
+#mvn compile
+mvn package
+cd ..
+
+# install python capnproto lib
+pip install --user pycapnp
+
+# download and install datomic-pro-1.0.6397
+# then install datomic-pro libs via maven
+cd datomic-pro-1.0.6397
+bin/maven-install
+cd ..
+
+
+
+
